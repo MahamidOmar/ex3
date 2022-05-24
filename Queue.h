@@ -10,9 +10,9 @@ class Node
 public:
     T m_data;
     Node* m_next;
-    Node* m_previous;
+    //Node* m_previous;
 
-    Node(const T& data): m_data(data), m_next(nullptr), m_previous(nullptr){};
+    Node(const T& data): m_data(data), m_next(nullptr){};
     ~Node() = default;
 };
 
