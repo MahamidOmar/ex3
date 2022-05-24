@@ -64,10 +64,6 @@ public:
         Node<T> *toDelete = m_head;
         m_head = m_head->m_next;
         delete toDelete;
-        if (m_head->m_previous)
-        {
-            m_head->m_previous = nullptr;
-        }
         m_size--;
     }
 
