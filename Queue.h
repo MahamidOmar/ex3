@@ -81,11 +81,11 @@ public:
     class Iterator;
     class ConstIterator;
 
-    Iterator begin() const;
-    Iterator end() const;
+    Iterator begin() ;
+    Iterator end() ;
 
-    //ConstIterator begin();
-    //ConstIterator end();
+    ConstIterator begin() const;
+    ConstIterator end() const;
 
 private:
     int m_size;
@@ -229,17 +229,28 @@ public:
 };
 
 template<class T>
-typename Queue<T>::Iterator Queue<T>::begin() const
+typename Queue<T>::Iterator Queue<T>::begin()
 {
     return Iterator(1 , this);
 }
 
 template<class T>
-typename Queue<T>::Iterator Queue<T>::end() const
+typename Queue<T>::Iterator Queue<T>::end()
 {
     return Iterator(m_size + 1 , this);
 }
 
+template<class T>
+typename Queue<T>::ConstIterator Queue<T>::begin() const
+{
+    return ConstIterator(1 , this);
+}
 
+template<class T>
+typename Queue<T>::ConstIterator Queue<T>::end() const
+{
+    return ConstIterator(m_size + 1 , this);
+}
 
 #endif //QUEUE_H
+
