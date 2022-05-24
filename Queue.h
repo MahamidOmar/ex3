@@ -81,14 +81,8 @@ public:
     class Iterator;
     class ConstIterator;
 
-    Iterator begin()
-    {
-        return Iterator(1 , this);
-    }
-    Iterator end()
-    {
-        return Iterator(m_size + 1 , this);
-    }
+    Iterator begin() const;
+    Iterator end() const;
 
     //ConstIterator begin();
     //ConstIterator end();
@@ -233,6 +227,18 @@ public:
 
     class InvalidOperation{};
 };
+
+template<class T>
+typename Queue<T>::Iterator Queue<T>::begin() const
+{
+    return Iterator(1 , this);
+}
+
+template<class T>
+typename Queue<T>::Iterator Queue<T>::end() const
+{
+    return Iterator(m_size + 1 , this);
+}
 
 
 
