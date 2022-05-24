@@ -136,7 +136,7 @@ class Queue<T>::Iterator
 public:
     bool operator!=(const Queue<T>::Iterator& it)const
     {
-        return ((*this) != it);
+        return (m_index != it.m_index) || (m_queue != it.m_queue);
     }
     Iterator& operator++()
     {
@@ -187,7 +187,7 @@ class Queue<T>::ConstIterator
 public:
     bool operator!=(const Queue<T>::ConstIterator& it)const
     {
-        return ((*this) != it);
+        return (m_index != it.m_index) || (m_queue != it.m_queue);
 
     }
     const ConstIterator& operator++()
