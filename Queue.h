@@ -95,7 +95,7 @@ private:
 };
 
 template<typename T, typename Condition>
-Queue<T> filter(const Queue<T>& queue, const Condition& condition)
+Queue<T> filter(Queue<T>& queue, const Condition& condition)
 {
     Queue<T> filtered;
     if(queue.size() == 0)
