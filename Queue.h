@@ -57,16 +57,17 @@ public:
         return  m_head->m_data;
     }
 
-    void popFront()
-    {
-        if(!m_head)
-        {
+    void popFront() {
+        if (!m_head) {
             throw EmptyQueue();
         }
-        Node<T>* toDelete = m_head;
+        Node<T> *toDelete = m_head;
         m_head = m_head->m_next;
         delete toDelete;
-        m_head->m_previous = nullptr;
+        if (m_head->m_previous)
+        {
+            m_head->m_previous = nullptr;
+        }
         m_size--;
     }
 
