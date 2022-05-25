@@ -22,12 +22,14 @@ public:
     Queue(): m_size(0), m_head(nullptr), m_tail(nullptr){};
     ~Queue()
     {
-        Node<T>* tmp = m_head;
-        while(tmp != NULL)
+        while(m_head != nullptr)
         {
-            Node<T>* toDelete = tmp;
-            tmp = tmp->m_next;
-            delete toDelete;
+            Node<T>* toDelete = m_head;
+            m_head = m_head->m_next;
+            if(toDelete != nullptr)
+            {
+                delete toDelete;
+            }
         }
     }
 
