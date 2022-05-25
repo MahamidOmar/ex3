@@ -22,12 +22,12 @@ public:
     Queue(): m_size(0), m_head(nullptr), m_tail(nullptr){};
     ~Queue()
     {
-        while(m_head != nullptr)
+        if(m_size != 0)
         {
-            Node<T>* toDelete = m_head;
-            m_head = m_head->m_next;
-            if(toDelete != nullptr)
+            while(m_head != nullptr)
             {
+                Node<T>* toDelete = m_head;
+                m_head = m_head->m_next;
                 delete toDelete;
             }
         }
@@ -66,6 +66,11 @@ public:
         m_head = m_head->m_next;
         delete toDelete;
         m_size--;
+        if(m_size == 0)
+        {
+            m_head = nullptr;
+            m_tail = nullptr;
+        }
     }
 
     int size()const
