@@ -10,7 +10,6 @@ class Node
 public:
     T m_data;
     Node* m_next;
-    //Node* m_previous;
 
     Node(const T& data): m_data(data), m_next(nullptr){};
     ~Node() = default;
@@ -40,10 +39,8 @@ public:
         }
         else
         {
-            Node<T>* tmp = m_tail;
             m_tail->m_next = new Node<T>(data);
             m_tail = m_tail->m_next;
-            m_tail->m_previous = tmp;
         }
         m_size++;
     }
