@@ -11,7 +11,8 @@ public:
     T m_data;
     Node* m_next;
 
-    Node(const T& data): m_data(data), m_next(nullptr){};
+    explicit Node(const T data): m_data(data), m_next(nullptr){};
+    Node(const Node& node): m_data(node.m_data), m_next(node.m_next){};
     ~Node() = default;
 };
 
