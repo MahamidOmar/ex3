@@ -24,10 +24,11 @@ public:
     ~Queue()
     {
         Node<T>* toDelete = m_head;
-        while(m_head)
+        Node<T>* tmp = m_head;
+        while(tmp)
         {
-            toDelete = m_head;
-            m_head = m_head->m_next;
+            toDelete = tmp;
+            tmp = tmp->m_next;
             delete toDelete;
         }
     }
