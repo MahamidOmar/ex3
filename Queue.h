@@ -41,8 +41,7 @@ public:
         }
         else
         {
-            Node<T>* newNode = new Node<T>(data);
-            m_tail->m_next = newNode;
+            m_tail->m_next = new Node<T>(data);
             m_tail = m_tail->m_next;
         }
         m_size++;
