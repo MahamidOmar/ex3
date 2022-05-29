@@ -47,7 +47,7 @@ public:
                 m_tail = m_tail->m_next;
                 queueNode = queueNode->m_next;
                 m_size++;
-            }catch (...)
+            }catch (const std::bad_alloc& e)
             {
                 Node<T>* toDelete = m_head;
                 Node<T>* tmp = m_head;
@@ -58,7 +58,7 @@ public:
                     delete toDelete;
                 }
                 m_size = 0;
-                throw;
+                throw e;
             }
         }
     }
@@ -77,11 +77,11 @@ public:
                 newTail = newTail->m_next;
                 copyNodes = copyNodes->m_next;
             }
-            catch (...)
+            catch (const std::bad_alloc& e)
             {
                 deleteNodes(newHead);
                 m_size = 0;
-                throw;
+                throw e;
             }
         }
         deleteNodes(m_head);
