@@ -63,6 +63,7 @@ public:
         }
     }
 
+    /*
     Queue& operator=(const Queue& copy)
     {
         Node<T>* newNodes = copyNode(copy.m_head);
@@ -74,7 +75,8 @@ public:
         }
         return *this;
     }
-    /*
+     */
+
     Queue& operator=(const Queue& copy)
     {
         Node<T>* copyNodes = copy.m_head;
@@ -101,7 +103,7 @@ public:
 
         return *this;
     }
-    */
+
 
 
 
