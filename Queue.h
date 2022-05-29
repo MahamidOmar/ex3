@@ -81,13 +81,7 @@ public:
             }
             catch (...)
             {
-                Node<T>* toDelete = newHead;
-                while(newHead)
-                {
-                    toDelete = newHead;
-                    newHead = newHead->m_next;
-                    delete toDelete;
-                }
+                deleteNodes(newHead);
                 m_size = 0;
                 throw;
             }
@@ -176,6 +170,18 @@ private:
     int m_size;
     Node<T>* m_head;
     Node<T>* m_tail;
+
+    static void deleteNodes(Node<T>* list)
+    {
+        Node<T>* toDelete = list;
+        Node<T>* tmp = list;
+        while(tmp)
+        {
+            toDelete = tmp;
+            tmp = tmp->m_next;
+            delete toDelete;
+        }
+    }
 
 };
 
