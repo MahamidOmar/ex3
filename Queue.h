@@ -33,6 +33,22 @@ public:
         }
     }
 
+    Queue(const Queue& queue): m_size(queue.m_size), m_head(nullptr), m_tail(nullptr)
+    {
+        const Node<T>* queueNode = queue.m_head;
+        m_head = new Node<T>(queueNode->m_data);
+        queueNode = queueNode->m_next;
+        m_tail = m_head;
+        while (queueNode)
+        {
+            m_tail->m_next = new Node<T>(queueNode->m_data);
+            m_tail = m_tail->m_next;
+            queueNode = queueNode->m_next;
+        }
+    }
+
+
+
     void pushBack(const T& data)
     {
         if(!m_head)
@@ -48,7 +64,16 @@ public:
         m_size++;
     }
 
-    T& front()const
+    T& front()
+    {
+        if(m_size == 0)
+        {
+            throw EmptyQueue();
+        }
+        return  m_head->m_data;
+    }
+
+    const T& front() const
     {
         if(m_size == 0)
         {
