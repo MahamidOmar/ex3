@@ -65,32 +65,7 @@ public:
         }
     }
 
-    Queue& operator=(const Queue& copy)
-    {
-        Node<T>* copyNodes = copy.m_head;
-        Node<T>* newHead = new Node<T>(copyNodes->m_data);
-        Node<T>* newTail = newHead;
-        copyNodes = copyNodes->m_next;
-        while(copyNodes)
-        {
-            try
-            {
-                newTail->m_next = new Node<T>(copyNodes->m_data);
-                newTail = newTail->m_next;
-                copyNodes = copyNodes->m_next;
-            }
-            catch (...)
-            {
-                deleteNodes(newHead);
-                m_size = 0;
-                throw;
-            }
-        }
-        deleteNodes(m_head);
-        m_head = newHead;
 
-        return *this;
-    }
 
 
 
