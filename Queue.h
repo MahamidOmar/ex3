@@ -86,14 +86,7 @@ public:
                 throw;
             }
         }
-        Node<T>* toDelete = m_head;
-        Node<T>* tmp = m_head;
-        while(tmp)
-        {
-            toDelete = tmp;
-            tmp = tmp->m_next;
-            delete toDelete;
-        }
+        deleteNodes(m_head);
         m_head = newHead;
 
         return *this;
