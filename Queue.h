@@ -256,7 +256,7 @@ public:
         return tmp->m_data;
     }
 
-    class InvalidOperation{};
+    class InvalidOperation: public std::exception{};
 };
 
 template<class T>
@@ -308,7 +308,7 @@ public:
         return tmp->m_data;
     }
 
-    class InvalidOperation{};
+    class InvalidOperation: public std::exception{};
 };
 
 template<class T>
