@@ -35,18 +35,20 @@ public:
 
     //need to check deletes in case of errors in new
     //might throw an exception
-    Queue(const Queue& queue): m_size(queue.m_size), m_head(nullptr), m_tail(nullptr)
+    Queue(const Queue& queue): m_size(0), m_head(nullptr), m_tail(nullptr)
     {
         const Node<T>* queueNode = queue.m_head;
         m_head = new Node<T>(queueNode->m_data);
         queueNode = queueNode->m_next;
         m_tail = m_head;
+        m_size++;
         while (queueNode)
         {
             try {
                 m_tail->m_next = new Node<T>(queueNode->m_data);
                 m_tail = m_tail->m_next;
                 queueNode = queueNode->m_next;
+                m_size++;
             }catch (...)
             {
                 Node<T>* toDelete = m_head;
@@ -57,17 +59,51 @@ public:
                     tmp = tmp->m_next;
                     delete toDelete;
                 }
+                m_size = 0;
                 throw;
             }
         }
     }
-    /*
+
     Queue& operator=(const Queue& copy)
     {
-        Node<T>* copyNodes = new Node<T>(copy.m_head);
+        Node<T>* copyNodes = copy.m_head;
+        Node<T>* newHead = new Node<T>(copyNodes->m_data);
+        Node<T>* newTail = newHead;
+        copyNodes = copyNodes->m_next;
+        while(copyNodes)
+        {
+            try
+            {
+                newTail->m_next = new Node<T>(copyNodes->m_data);
+                newTail = newTail->m_next;
+                copyNodes = copyNodes->m_next;
+            }
+            catch (...)
+            {
+                Node<T>* toDelete = newHead;
+                while(newHead)
+                {
+                    toDelete = newHead;
+                    newHead = newHead->m_next;
+                    delete toDelete;
+                }
+                m_size = 0;
+                throw;
+            }
+        }
+        Node<T>* toDelete = m_head;
+        Node<T>* tmp = m_head;
+        while(tmp)
+        {
+            toDelete = tmp;
+            tmp = tmp->m_next;
+            delete toDelete;
+        }
+        m_head = newHead;
 
+        return *this;
     }
-     */
 
 
 
