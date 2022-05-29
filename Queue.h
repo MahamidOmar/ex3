@@ -33,8 +33,6 @@ public:
         }
     }
 
-    //need to check deletes in case of errors in new
-    //might throw an exception
     Queue(const Queue& queue): m_size(0), m_head(nullptr), m_tail(nullptr)
     {
         const Node<T>* queueNode = queue.m_head;
@@ -67,6 +65,18 @@ public:
 
     Queue& operator=(const Queue& copy)
     {
+        Node<T>* newNodes = copyNode(copy.m_head);
+        m_head = newNodes;
+        m_tail = newNodes;
+        while (m_tail->m_next)
+        {
+            m_tail = m_tail->m_next;
+        }
+        return *this;
+    }
+    /*
+    Queue& operator=(const Queue& copy)
+    {
         Node<T>* copyNodes = copy.m_head;
         Node<T>* newHead = new Node<T>(copyNodes->m_data);
         Node<T>* newTail = newHead;
@@ -91,6 +101,7 @@ public:
 
         return *this;
     }
+    */
 
 
 
@@ -176,6 +187,27 @@ private:
         }
     }
 
+    static Node<T>* copyNode(Node<T>* copy)
+    {
+        Node<T>* newNodes = new Node<T>(copy);
+        copy = copy->m_next;
+        Node<T>* tmpTail = newNodes;
+        while (copy)
+        {
+            try {
+
+
+                tmpTail->m_next = new Node<T>(copy);
+                tmpTail = tmpTail->m_next;
+                copy = copy->m_next;
+            }catch (std::bad_alloc& e)
+            {
+                deleteNodes(newNodes);
+                throw e;
+            }
+        }
+        return newNodes;
+    }
 };
 
 template<typename T, typename Condition>
