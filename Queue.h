@@ -63,20 +63,6 @@ public:
         }
     }
 
-    /*
-    Queue& operator=(const Queue& copy)
-    {
-        Node<T>* newNodes = copyNode(copy.m_head);
-        m_head = newNodes;
-        m_tail = newNodes;
-        while (m_tail->m_next)
-        {
-            m_tail = m_tail->m_next;
-        }
-        return *this;
-    }
-     */
-
     Queue& operator=(const Queue& copy)
     {
         Node<T>* copyNodes = copy.m_head;
@@ -189,27 +175,6 @@ private:
         }
     }
 
-    static Node<T>* copyNode(Node<T>* copy)
-    {
-        Node<T>* newNodes = new Node<T>(*copy);
-        copy = copy->m_next;
-        Node<T>* tmpTail = newNodes;
-        while (copy)
-        {
-            try {
-
-
-                tmpTail->m_next = new Node<T>(*copy);
-                tmpTail = tmpTail->m_next;
-                copy = copy->m_next;
-            }catch (std::bad_alloc& e)
-            {
-                deleteNodes(newNodes);
-                throw e;
-            }
-        }
-        return newNodes;
-    }
 };
 
 template<typename T, typename Condition>
