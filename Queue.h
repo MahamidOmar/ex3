@@ -95,7 +95,7 @@ public:
 
     void pushBack(const T& data)
     {
-        if(!m_head)
+        if(m_size == 0)
         {
             m_head = new Node<T>(data);
             m_tail = m_head;
@@ -127,18 +127,13 @@ public:
     }
 
     void popFront() {
-        if (!m_head) {
+        if (m_size == 0) {
             throw EmptyQueue();
         }
         Node<T> *toDelete = m_head;
         m_head = m_head->m_next;
         delete toDelete;
         m_size--;
-        if(m_size == 0)
-        {
-            m_head = nullptr;
-            m_tail = nullptr;
-        }
     }
 
     int size()const
