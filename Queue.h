@@ -189,7 +189,7 @@ private:
 
     static Node<T>* copyNode(Node<T>* copy)
     {
-        Node<T>* newNodes = new Node<T>(copy);
+        Node<T>* newNodes = new Node<T>(*copy);
         copy = copy->m_next;
         Node<T>* tmpTail = newNodes;
         while (copy)
