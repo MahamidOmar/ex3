@@ -197,7 +197,7 @@ private:
             try {
 
 
-                tmpTail->m_next = new Node<T>(copy);
+                tmpTail->m_next = new Node<T>(*copy);
                 tmpTail = tmpTail->m_next;
                 copy = copy->m_next;
             }catch (std::bad_alloc& e)
