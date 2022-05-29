@@ -67,6 +67,43 @@ public:
         Node<T>* newHead = new Node<T>(copyNodes->m_data);
         Node<T>* newTail = newHead;
         copyNodes = copyNodes->m_next;
+        while (copyNodes)
+        {
+            try {
+                newTail->m_next = new Node<T>(copyNodes->m_data);
+                newTail = newTail->m_next;
+                copyNodes = copyNodes->m_next;
+            }
+            catch (const std::bad_alloc& e)
+            {
+                while(newHead)
+                {
+                    Node<T>* toDelete = newHead;
+                    newHead = newHead->m_next;
+                    delete toDelete;
+                }
+                throw e;
+            }
+        }
+        while (m_head)
+        {
+            Node<T>* toDelete = m_head;
+            m_head = m_head->m_next;
+            delete toDelete;
+        }
+        m_size = copy.m_size;
+        m_head = newHead;
+        m_tail = newTail;
+        return *this;
+    }
+
+    /*
+    Queue& operator=(const Queue& copy)
+    {
+        Node<T>* copyNodes = copy.m_head;
+        Node<T>* newHead = new Node<T>(copyNodes->m_data);
+        Node<T>* newTail = newHead;
+        copyNodes = copyNodes->m_next;
         while(copyNodes)
         {
             try
@@ -88,9 +125,7 @@ public:
         return *this;
     }
 
-
-
-
+    */
     void pushBack(const T& data)
     {
         if(m_size == 0)
