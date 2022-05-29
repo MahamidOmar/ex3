@@ -146,7 +146,7 @@ public:
         return m_size;
     }
 
-    class EmptyQueue {};
+    class EmptyQueue: public std::exception{};
 
 
     class Iterator;
