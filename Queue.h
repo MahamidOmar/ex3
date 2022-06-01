@@ -94,44 +94,13 @@ class Queue<T>::Iterator
     Iterator(int index , const Queue<T>* queue):m_index(index) , m_queue(queue){};
 
 public:
-    bool operator!=(const Queue<T>::Iterator& it)const
-    {
-        return (m_index != it.m_index) || (m_queue != it.m_queue);
-    }
-    Iterator& operator++()
-    {
-        if(m_index > m_queue->m_size)
-        {
-            throw InvalidOperation();
-        }
-        ++m_index;
-        return *this;
-    }
-    Iterator operator++(int i)
-    {
-        if(m_index > m_queue->m_size)
-        {
-            throw InvalidOperation();
-        }
-        Iterator result = *this;
-        ++(*this);
-        return result;
-    }
-    T& operator*()const
-    {
-        if(m_index > m_queue->m_size)
-        {
-            throw InvalidOperation();
-        }
-        Node<T>* tmp = m_queue->m_head;
-        int i = 1;
-        while (i < m_index)
-        {
-            tmp = tmp->m_next;
-            ++i;
-        }
-        return tmp->m_data;
-    }
+    bool operator!=(const Queue<T>::Iterator& it)const;
+
+    Iterator& operator++();
+
+    Iterator operator++(int i);
+
+    T& operator*()const;
 
     class InvalidOperation: public std::exception{};
 };
@@ -341,6 +310,52 @@ template<class T>
 int Queue<T>::size()const
 {
     return m_size;
+}
+
+template<class T>
+bool Queue<T>::Iterator::operator!=(const Queue<T>::Iterator& it)const
+{
+    return (m_index != it.m_index) || (m_queue != it.m_queue);
+}
+
+template<class T>
+typename Queue<T>::Iterator& Queue<T>::Iterator::operator++()
+{
+    if(m_index > m_queue->m_size)
+    {
+        throw InvalidOperation();
+    }
+    ++m_index;
+    return *this;
+}
+
+template<class T>
+typename Queue<T>::Iterator Queue<T>::Iterator::operator++(int i)
+{
+    if(m_index > m_queue->m_size)
+    {
+        throw InvalidOperation();
+    }
+    Iterator result = *this;
+    ++(*this);
+    return result;
+}
+
+template<class T>
+T& Queue<T>::Iterator::operator*()const
+{
+    if(m_index > m_queue->m_size)
+    {
+        throw InvalidOperation();
+    }
+    Node<T>* tmp = m_queue->m_head;
+    int i = 1;
+    while (i < m_index)
+    {
+        tmp = tmp->m_next;
+        ++i;
+    }
+    return tmp->m_data;
 }
 
 #endif //QUEUE_H
