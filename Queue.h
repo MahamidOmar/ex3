@@ -114,45 +114,13 @@ class Queue<T>::ConstIterator
     ConstIterator(int index , const Queue<T>* queue):m_index(index) , m_queue(queue){};
 
 public:
-    bool operator!=(const Queue<T>::ConstIterator& it)const
-    {
-        return (m_index != it.m_index) || (m_queue != it.m_queue);
+    bool operator!=(const Queue<T>::ConstIterator& it)const;
 
-    }
-    const ConstIterator& operator++()
-    {
-        if(m_index > m_queue->m_size)
-        {
-            throw InvalidOperation();
-        }
-        ++m_index;
-        return *this;
-    }
-    const ConstIterator operator++(int i)
-    {
-        if(m_index > m_queue->m_size)
-        {
-            throw InvalidOperation();
-        }
-        const ConstIterator result = *this;
-        ++(*this);
-        return result;
-    }
-    const T& operator*()const
-    {
-        if(m_index > m_queue->m_size)
-        {
-            throw InvalidOperation();
-        }
-        Node<T>* tmp = m_queue->m_head;
-        int i = 1;
-        while (i < m_index)
-        {
-            tmp = tmp->m_next;
-            ++i;
-        }
-        return tmp->m_data;
-    }
+    const ConstIterator& operator++();
+
+    const ConstIterator operator++(int i);
+
+    const T& operator*()const;
 
     class InvalidOperation: public std::exception{};
 };
@@ -357,6 +325,54 @@ T& Queue<T>::Iterator::operator*()const
     }
     return tmp->m_data;
 }
+
+template<class T>
+bool Queue<T>::ConstIterator::operator!=(const Queue<T>::ConstIterator& it)const
+{
+    return (m_index != it.m_index) || (m_queue != it.m_queue);
+
+}
+
+template<class T>
+const typename Queue<T>::ConstIterator::ConstIterator& Queue<T>::ConstIterator::operator++()
+{
+    if(m_index > m_queue->m_size)
+    {
+        throw InvalidOperation();
+    }
+    ++m_index;
+    return *this;
+}
+
+template<class T>
+const typename Queue<T>::ConstIterator::ConstIterator Queue<T>::ConstIterator::operator++(int i)
+{
+    if(m_index > m_queue->m_size)
+    {
+        throw InvalidOperation();
+    }
+    const ConstIterator result = *this;
+    ++(*this);
+    return result;
+}
+
+template<class T>
+const T& Queue<T>::ConstIterator::operator*()const
+{
+    if(m_index > m_queue->m_size)
+    {
+        throw InvalidOperation();
+    }
+    Node<T>* tmp = m_queue->m_head;
+    int i = 1;
+    while (i < m_index)
+    {
+        tmp = tmp->m_next;
+        ++i;
+    }
+    return tmp->m_data;
+}
+
 
 #endif //QUEUE_H
 
