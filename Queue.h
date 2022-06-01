@@ -21,7 +21,8 @@ class Queue
 {
 public:
     Queue(): m_size(0), m_head(nullptr), m_tail(nullptr){};
-    ~Queue()
+    ~Queue();
+    /*
     {
         Node<T>* toDelete = m_head;
         Node<T>* tmp = m_head;
@@ -32,8 +33,10 @@ public:
             delete toDelete;
         }
     }
+     */
 
-    Queue(const Queue& queue): m_size(queue.m_size), m_head(nullptr), m_tail(nullptr)
+    Queue(const Queue& queue);
+    /*
     {
         const Node<T>* queueNode = queue.m_head;
         m_head = new Node<T>(queueNode->m_data);
@@ -60,8 +63,10 @@ public:
             }
         }
     }
+     */
 
-    Queue& operator=(const Queue& copy)
+    Queue& operator=(const Queue& copy);
+    /*
     {
         Node<T>* copyNodes = copy.m_head;
         Node<T>* newHead = new Node<T>(copyNodes->m_data);
@@ -96,37 +101,9 @@ public:
         m_tail = newTail;
         return *this;
     }
-
-    /*
-    Queue& operator=(const Queue& copy)
-    {
-        Node<T>* copyNodes = copy.m_head;
-        Node<T>* newHead = new Node<T>(copyNodes->m_data);
-        Node<T>* newTail = newHead;
-        copyNodes = copyNodes->m_next;
-        while(copyNodes)
-        {
-            try
-            {
-                newTail->m_next = new Node<T>(copyNodes->m_data);
-                newTail = newTail->m_next;
-                copyNodes = copyNodes->m_next;
-            }
-            catch (const std::bad_alloc& e)
-            {
-                deleteNodes(newHead);
-                m_size = 0;
-                throw e;
-            }
-        }
-        deleteNodes(m_head);
-        m_head = newHead;
-
-        return *this;
-    }
-
     */
-    void pushBack(const T& data)
+    void pushBack(const T& data);
+    /*
     {
         if(m_size == 0)
         {
@@ -140,8 +117,10 @@ public:
         }
         m_size++;
     }
+     */
 
-    T& front()
+    T& front();
+    /*
     {
         if(m_size == 0)
         {
@@ -149,8 +128,10 @@ public:
         }
         return  m_head->m_data;
     }
+     */
 
-    const T& front() const
+    const T& front() const;
+    /*
     {
         if(m_size == 0)
         {
@@ -158,8 +139,11 @@ public:
         }
         return  m_head->m_data;
     }
+     */
 
-    void popFront() {
+    void popFront();
+    /*
+    {
         if (m_size == 0) {
             throw EmptyQueue();
         }
@@ -168,11 +152,14 @@ public:
         delete toDelete;
         m_size--;
     }
+     */
 
-    int size()const
+    int size()const;
+    /*
     {
         return m_size;
     }
+     */
 
     class EmptyQueue: public std::exception{};
 
@@ -361,6 +348,137 @@ template<class T>
 typename Queue<T>::ConstIterator Queue<T>::end() const
 {
     return ConstIterator(m_size + 1 , this);
+}
+
+template<class T>
+Queue<T>::~Queue()
+{
+    Node<T>* toDelete = m_head;
+    Node<T>* tmp = m_head;
+    while(tmp)
+    {
+        toDelete = tmp;
+        tmp = tmp->m_next;
+        delete toDelete;
+    }
+}
+
+template<class T>
+Queue<T>::Queue(const Queue& queue): m_size(queue.m_size), m_head(nullptr), m_tail(nullptr)
+{
+    const Node<T>* queueNode = queue.m_head;
+    m_head = new Node<T>(queueNode->m_data);
+    queueNode = queueNode->m_next;
+    m_tail = m_head;
+    while (queueNode)
+    {
+        try {
+            m_tail->m_next = new Node<T>(queueNode->m_data);
+            m_tail = m_tail->m_next;
+            queueNode = queueNode->m_next;
+        }catch (const std::bad_alloc& e)
+        {
+            Node<T>* toDelete = m_head;
+            Node<T>* tmp = m_head;
+            while(tmp)
+            {
+                toDelete = tmp;
+                tmp = tmp->m_next;
+                delete toDelete;
+            }
+            m_size = 0;
+            throw e;
+        }
+    }
+}
+template<class T>
+Queue<T>& Queue<T>::operator=(const Queue& copy)
+{
+    Node<T>* copyNodes = copy.m_head;
+    Node<T>* newHead = new Node<T>(copyNodes->m_data);
+    Node<T>* newTail = newHead;
+    copyNodes = copyNodes->m_next;
+    while (copyNodes)
+    {
+        try {
+            newTail->m_next = new Node<T>(copyNodes->m_data);
+            newTail = newTail->m_next;
+            copyNodes = copyNodes->m_next;
+        }
+        catch (const std::bad_alloc& e)
+        {
+            while(newHead)
+            {
+                Node<T>* toDelete = newHead;
+                newHead = newHead->m_next;
+                delete toDelete;
+            }
+            throw e;
+        }
+    }
+    while (m_head)
+    {
+        Node<T>* toDelete = m_head;
+        m_head = m_head->m_next;
+        delete toDelete;
+    }
+    m_size = copy.m_size;
+    m_head = newHead;
+    m_tail = newTail;
+    return *this;
+}
+
+template<class T>
+void Queue<T>::pushBack(const T& data)
+{
+    if(m_size == 0)
+    {
+        m_head = new Node<T>(data);
+        m_tail = m_head;
+    }
+    else
+    {
+        m_tail->m_next = new Node<T>(data);
+        m_tail = m_tail->m_next;
+    }
+    m_size++;
+}
+
+template<class T>
+T& Queue<T>::front()
+{
+    if(m_size == 0)
+    {
+        throw EmptyQueue();
+    }
+    return  m_head->m_data;
+}
+
+template<class T>
+const T& Queue<T>::front() const
+{
+    if(m_size == 0)
+    {
+        throw EmptyQueue();
+    }
+    return  m_head->m_data;
+}
+
+template<class T>
+void Queue<T>::popFront() {
+    if (m_size == 0) {
+        throw EmptyQueue();
+    }
+    Node<T> *toDelete = m_head;
+    m_head = m_head->m_next;
+    delete toDelete;
+    m_size--;
+}
+
+template<class T>
+int Queue<T>::size()const
+{
+    return m_size;
 }
 
 #endif //QUEUE_H
